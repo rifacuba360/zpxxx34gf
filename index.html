@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de contacto</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    form {
+      background: #1e293b;
+      padding: 24px;
+      border-radius: 12px;
+      width: 320px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    input, textarea, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+    }
+    input, textarea {
+      background: #334155;
+      color: white;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    .msg {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <form id="contactForm">
+    <h2>📩 Formulario</h2>
+    <input type="text" name="nombre" placeholder="Tu nombre" required>
+    <textarea name="mensaje" placeholder="Tu mensaje" rows="4" required></textarea>
+    <button type="submit">Enviar</button>
+    <div class="msg" id="msg"></div>
+  </form>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const msg = document.getElementById('msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.textContent = "⏳ Enviando...";
+      const datos = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch("/notificar", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(datos)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          msg.textContent = "✅ Notificación enviada";
+          form.reset();
+        } else {
+          msg.textContent = "⚠️ Error: " + (data.error || "No se pudo enviar");
+        }
+      } catch {
+        msg.textContent = "❌ Error de conexión";
+      }
+    });
+  </script>
+</body>
+</html>
