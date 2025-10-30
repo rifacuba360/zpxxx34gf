@@ -6,8 +6,8 @@ import html
 # ==========================
 # ⚙️ CONFIGURACIÓN
 # ==========================
-BOT_TOKEN = os.getenv("5917170867") or "TU_TOKEN_AQUI"
-ADMIN_ID = os.getenv("5917170867") or "TU_ID_ADMIN"
+BOT_TOKEN = os.getenv("TU_TOKEN_AQUI") or "TU_TOKEN_AQUI"
+ADMIN_ID = os.getenv("TU_TOKEN_AQUI") or "TU_ID_ADMIN"
 API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
 app = Flask(__name__, static_folder='.', static_url_path='')
